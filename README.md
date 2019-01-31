@@ -1,9 +1,12 @@
-Backend API for getting nutritional information from a barcode and nutritional ranking system. To run:\
+Backend API for getting nutritional information from a barcode and nutritional ranking system. To run:
+
 ```
 npm install
 npm start
 ```
-OR\
+
+OR
+
 ```
 yarn install
 yarn start
