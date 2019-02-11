@@ -56,7 +56,7 @@
                 "requirements": [
                     {
                         "property": "nf_sugars",
-                        "operator": "true",
+                        "operator": "le",
                         "value": 15
                     }
                 ]
