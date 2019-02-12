@@ -1,109 +1,199 @@
 {
-    "rankingName": "wellness",
-    "rankings": {
-        "yes":2,
-        "no":1
-    },
-    "categories":
-    {
-        "fresh-produce": [
-            {
-                "ranking": "yes",
-                "requirements": [
-                    {
-                        "property": null,
-                        "operator": "true",
-                        "value": null
-                    }
-                ]
-            },
-            {
-                "ranking": "no",
-                "requirements":[
-                    {
-                        "property": null,
-                        "operator": "false",
-                        "value": null
-                    }
-                ]
-            }
-        ],
-        "canned-fruits": [
-            {
-                "ranking": "yes",
-                "requirements": [
-                    {
-                        "property": "nf_sugars",
-                        "operator": "le",
-                        "value": 15
-                    }
-                ]
-            },
-            {
-                "ranking": "no",
-                "requirements":[
-                    {
-                        "property": null,
-                        "operator": "true",
-                        "value": null
-                    }
-                ]
-            }
-        ],
-        "frozen-fruit": [
-            {
-                "ranking": "yes",
-                "requirements": [
-                    {
-                        "property": "nf_sugars",
-                        "operator": "le",
-                        "value": 15
-                    }
-                ]
-            },
-            {
-                "ranking": "no",
-                "requirements":[
-                    {
-                        "property": null,
-                        "operator": "true",
-                        "value": null
-                    }
-                ]
-            }
-        ],
-        "canned-vegetable": [
-            {
-                "ranking": "yes",
-                "requirements": [
-                    {
-                        "property": "nf_sodium",
-                        "operator": "le",
-                        "value": 140
-                    }
-                ]
-            },
-            {
-                "ranking": "no",
-                "requirements":[
-                    {
-                        "property": null,
-                        "operator": "true",
-                        "value": null
-                    }
-                ]
-            }
-        ],
-        "frozen-vegetable": [],
-        "protein-unprocessed-animal": [],
-        "protein-processed-animal": [],
-        "protein-plant-peanut-butter": [],
-        "protein-plant-bean": [],
-        "grains":[],
-        "cereal": [],
-        "beverages": [],
-        "beverages-100-juice": [],
-
-    }
-
+  "ranking-name": "wellness",
+  "rankings": {
+    "yes": 2,
+    "no": 1
+  },
+  "default-rank": "no",
+  "categories": {
+    "fresh-produce": [
+      {
+        "ranking": "yes",
+        "requirements": [
+          {
+            "property": null,
+            "operator": "true",
+            "value": null
+          }
+        ]
+      }
+    ],
+    "canned-fruits": [
+      {
+        "ranking": "yes",
+        "requirements": [
+          {
+            "property": "nf_sugars",
+            "operator": "lt",
+            "value": 15
+          }
+        ]
+      }
+    ],
+    "frozen-fruit": [
+      {
+        "ranking": "yes",
+        "requirements": [
+          {
+            "property": "nf_sugars",
+            "operator": "lt",
+            "value": 15
+          }
+        ]
+      }
+    ],
+    "canned-vegetable": [
+      {
+        "ranking": "yes",
+        "requirements": [
+          {
+            "property": "nf_sodium",
+            "operator": "lt",
+            "value": 140
+          }
+        ]
+      }
+    ],
+    "frozen-vegetable": [
+      {
+        "ranking": "yes",
+        "requirements": [
+          {
+            "property": "nf_sodium",
+            "operator": "lt",
+            "value": 140
+          }
+        ]
+      }
+    ],
+    "protein-unprocessed-animal": [
+      {
+      "ranking": "yes",
+      "requirements": [
+        {
+          "property": null,
+          "operator": "true",
+          "value": null
+        }
+      ]
+    }],
+    "protein-processed-animal": [{
+      "ranking": "yes",
+      "requirements": [
+        {
+          "property": "nf_sodium",
+          "operator": "lt",
+          "value": 250
+        }
+      ]
+    }],
+    "protein-plant-peanut-butter": [{
+    "ranking": "yes",
+    "requirements": [
+      {
+        "property": null,
+        "operator": "true",
+        "value": null
+      }
+    ]
+  }],
+    "protein-plant-bean": [{
+      "ranking": "yes",
+      "requirements": [
+        {
+          "property": "nf_sodium",
+          "operator": "lt",
+          "value": 140
+        }
+      ]
+    }],
+    "grains": [{
+      "ranking": "yes",
+      "requirements": [
+        {
+          "property": "nf_ingredient_statement",
+          "operator": "first-ingredient",
+          "value": "whole grain"
+        },
+        {
+          "property": "nf_sugars",
+          "operator": "lt",
+          "value": 12
+        }
+      ]
+    }],
+    "cereal": [{
+      "ranking": "yes",
+      "requirements": [
+        {
+          "property": "nf_sugars",
+          "operator": "lte",
+          "value": 7
+        }
+      ]
+    }],
+    "beverages": [{
+      "ranking": "yes",
+      "requirements": [
+        {
+          "property": "nf_ingredient_statement",
+          "operator": "contains",
+          "value": "100% juice"
+        }
+      ]
+    }],
+    "dairy": [
+      {
+        "ranking": "yes",
+        "requirements": [
+          {
+            "property": null,
+            "operator": "true",
+            "value": null
+          }
+        ]
+      }
+    ],
+    "dairy-alternative": [
+      {
+        "ranking": "yes",
+        "requirements": [
+          {
+            "property": null,
+            "operator": "true",
+            "value": null
+          }
+        ]
+      }
+    ],
+    "sauce-condiment-spice": [
+      {
+        "ranking": "yes",
+        "requirements": [
+          {
+            "property": "nf_sodium",
+            "operator": "lte",
+            "value": 250
+          }
+        ]
+      }
+    ],
+    "snacks-desserts": [
+      {
+        "ranking": "yes",
+        "requirements": [
+          {
+            "property": "nf_ingredient_statement",
+            "operator": "contains",
+            "value": "whole grain"
+          },
+          {
+            "property": "nf_sugars",
+            "operator": "lte",
+            "value": 12
+          }
+        ]
+      }
+    ]
+  }
 }
