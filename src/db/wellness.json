@@ -1,10 +1,10 @@
 {
-  "ranking-name": "wellness",
-  "rankings": {
+  "name": "wellness",
+  "values": {
     "yes": 2,
     "no": 1
   },
-  "default-rank": "no",
+  "default": "no",
   "categories": {
     "fresh-produce": [
       {
@@ -68,80 +68,93 @@
     ],
     "protein-unprocessed-animal": [
       {
-      "ranking": "yes",
-      "requirements": [
-        {
-          "property": null,
-          "operator": "true",
-          "value": null
-        }
-      ]
-    }],
-    "protein-processed-animal": [{
-      "ranking": "yes",
-      "requirements": [
-        {
-          "property": "nf_sodium",
-          "operator": "lt",
-          "value": 250
-        }
-      ]
-    }],
-    "protein-plant-peanut-butter": [{
-    "ranking": "yes",
-    "requirements": [
-      {
-        "property": null,
-        "operator": "true",
-        "value": null
+        "ranking": "yes",
+        "requirements": [
+          {
+            "property": null,
+            "operator": "true",
+            "value": null
+          }
+        ]
       }
-    ]
-  }],
-    "protein-plant-bean": [{
-      "ranking": "yes",
-      "requirements": [
-        {
-          "property": "nf_sodium",
-          "operator": "lt",
-          "value": 140
-        }
-      ]
-    }],
-    "grains": [{
-      "ranking": "yes",
-      "requirements": [
-        {
-          "property": "nf_ingredient_statement",
-          "operator": "first-ingredient",
-          "value": "whole grain"
-        },
-        {
-          "property": "nf_sugars",
-          "operator": "lt",
-          "value": 12
-        }
-      ]
-    }],
-    "cereal": [{
-      "ranking": "yes",
-      "requirements": [
-        {
-          "property": "nf_sugars",
-          "operator": "lte",
-          "value": 7
-        }
-      ]
-    }],
-    "beverages": [{
-      "ranking": "yes",
-      "requirements": [
-        {
-          "property": "nf_ingredient_statement",
-          "operator": "contains",
-          "value": "100% juice"
-        }
-      ]
-    }],
+    ],
+    "protein-processed-animal": [
+      {
+        "ranking": "yes",
+        "requirements": [
+          {
+            "property": "nf_sodium",
+            "operator": "lt",
+            "value": 250
+          }
+        ]
+      }
+    ],
+    "protein-plant-peanut-butter": [
+      {
+        "ranking": "yes",
+        "requirements": [
+          {
+            "property": null,
+            "operator": "true",
+            "value": null
+          }
+        ]
+      }
+    ],
+    "protein-plant-bean": [
+      {
+        "ranking": "yes",
+        "requirements": [
+          {
+            "property": "nf_sodium",
+            "operator": "lt",
+            "value": 140
+          }
+        ]
+      }
+    ],
+    "grains": [
+      {
+        "ranking": "yes",
+        "requirements": [
+          {
+            "property": "nf_ingredient_statement",
+            "operator": "first-ingredient",
+            "value": "whole grain"
+          },
+          {
+            "property": "nf_sugars",
+            "operator": "lt",
+            "value": 12
+          }
+        ]
+      }
+    ],
+    "cereal": [
+      {
+        "ranking": "yes",
+        "requirements": [
+          {
+            "property": "nf_sugars",
+            "operator": "lte",
+            "value": 7
+          }
+        ]
+      }
+    ],
+    "beverages": [
+      {
+        "ranking": "yes",
+        "requirements": [
+          {
+            "property": "nf_ingredient_statement",
+            "operator": "contains",
+            "value": "100% juice"
+          }
+        ]
+      }
+    ],
     "dairy": [
       {
         "ranking": "yes",
@@ -178,15 +191,10 @@
         ]
       }
     ],
-    "snacks-desserts": [
+    "snack-dessert": [
       {
         "ranking": "yes",
         "requirements": [
-          {
-            "property": "nf_ingredient_statement",
-            "operator": "contains",
-            "value": "whole grain"
-          },
           {
             "property": "nf_sugars",
             "operator": "lte",
