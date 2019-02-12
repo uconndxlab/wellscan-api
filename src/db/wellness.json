@@ -196,6 +196,16 @@
         "ranking": "yes",
         "requirements": [
           {
+            "property": "nf_ingredient_statement",
+            "operator": "contains",
+            "value": "whole grain"
+          }
+        ]
+      },
+      {
+        "ranking": "yes",
+        "requirements": [
+          {
             "property": "nf_sugars",
             "operator": "lte",
             "value": 12
