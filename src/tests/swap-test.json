@@ -1,0 +1,68 @@
+{
+  "name": "swap",
+  "description": "SWAP ranking system",
+  "tests": [
+    {
+      "category": "condiment",
+      "barcode": "042563016272",
+      "description": "Woodstock Organic Whole Cranberry Sauce",
+      "status": 200,
+      "properties": {
+        "name": "red",
+        "value": 1
+      }
+    },
+    {
+      "category": "grain",
+      "barcode": "030000169209",
+      "description": "Quaker Gluten Free Popped Rice Crisps, Caramel Corn Flavored",
+      "status": 200,
+      "properties": {
+        "name": "yellow",
+        "value": 2
+      }
+    },
+    {
+      "category": "protein-plant",
+      "barcode": "850126007205",
+      "description": "Hippeas Organic Chickpea Puffs, Siracha Sunshine",
+      "status": 200,
+      "properties": {
+        "name": "green",
+        "value": 3
+      }
+    },
+    {
+      "category": "dairy-milk",
+      "barcode": "742365208454",
+      "description": "Horizon Organic Vanilla Low Fat Milk",
+      "status": 200,
+      "properties": {
+        "name": "yellow",
+        "value": 2
+      }
+    },
+    {
+      "category": "combination-food-meal",
+      "barcode": "013900500518",
+      "description": "Bell's Traditional Stuffing",
+      "status": 200,
+      "properties": {
+        "name": "yellow",
+        "value": 2
+      }
+    },
+    {
+      "category": "bad-category",
+      "barcode": "632930413867",
+      "description": "Wrong Category",
+      "status": 404
+    },
+    {
+      "category": "dairy-yogurt",
+      "barcode": "bad-barcode",
+      "description": "Bad Barcode",
+      "status": 404
+    }
+  ]
+}

@@ -6,8 +6,8 @@ chai.use(chaiHttp);
 chai.should();
 
 import wellness_test from "./wellness-test.json";
-
-const rankings = [wellness_test];
+import swap_test from "./swap-test.json";
+const rankings = [wellness_test, swap_test];
 
 rankings.forEach( system => {
   describe(system.description, () => {
