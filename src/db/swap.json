@@ -130,47 +130,47 @@
             "operator": "lte",
             "value": 12
           }
-        ],
-        "protein-plant": [
+        ]
+      }
+    ],
+    "protein-plant": [
+      {
+        "ranking": "green",
+        "requirements": [
           {
-            "ranking": "green",
-            "requirements": [
-              {
-                "property": "nf_saturated_fat",
-                "operator": "lte",
-                "value": 2
-              },
-              {
-                "property": "nf_sodium",
-                "operator": "lte",
-                "value": 200
-              },
-              {
-                "property": "nf_sugars",
-                "operator": "lte",
-                "value": 5
-              }
-            ]
+            "property": "nf_saturated_fat",
+            "operator": "lte",
+            "value": 2
           },
           {
-            "ranking": "yellow",
-            "requirements": [
-              {
-                "property": "nf_saturated_fat",
-                "operator": "lte",
-                "value": 5
-              },
-              {
-                "property": "nf_sodium",
-                "operator": "lte",
-                "value": 480
-              },
-              {
-                "property": "nf_sugars",
-                "operator": "lte",
-                "value": 9
-              }
-            ]
+            "property": "nf_sodium",
+            "operator": "lte",
+            "value": 200
+          },
+          {
+            "property": "nf_sugars",
+            "operator": "lte",
+            "value": 5
+          }
+        ]
+      },
+      {
+        "ranking": "yellow",
+        "requirements": [
+          {
+            "property": "nf_saturated_fat",
+            "operator": "lte",
+            "value": 5
+          },
+          {
+            "property": "nf_sodium",
+            "operator": "lte",
+            "value": 480
+          },
+          {
+            "property": "nf_sugars",
+            "operator": "lte",
+            "value": 9
           }
         ]
       }
@@ -259,7 +259,7 @@
         ]
       }
     ],
-    "dairy-mil": [
+    "dairy-milk": [
       {
         "ranking": "green",
         "requirements": [

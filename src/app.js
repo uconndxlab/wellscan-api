@@ -15,10 +15,15 @@ app.get('/', (req, res) => {
 
 app.get("/api/:system/:category/:barcode", (req, res, next) => {
     const params = req.params;
-    nix.getNutritionByUPC(params.barcode, nutrition => {
+    nix.getNutritionByUPC(params.barcode,
+      (nutrition) => {
         req.nut = nutrition;
         next();
-    });
+      },
+      (err) => {
+        res.status(404).send("Could not find nutrition information for " + params.barcode);
+      }
+    );
 
 });
 app.get("/api/:system/:category/:barcode", (req, res) => {
@@ -26,12 +31,12 @@ app.get("/api/:system/:category/:barcode", (req, res) => {
 
     const rankSys = db[req.params.system];
     if (!rankSys) {
-      res.status(404).send("ranking system not found");
+      res.status(400).send("ranking system not found");
     }
 
     const tests = rankSys["categories"][req.params.category];
     if (!tests) {
-      res.status(404).send(req.params.category + " category not found in " + rankSys["name"] + " ranking system");
+      res.status(400).send(req.params.category + " category not found in " + rankSys["name"] + " ranking system");
     }
 
     let nut = req.nut.data;
