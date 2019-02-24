@@ -1,0 +1,16 @@
+{
+  "name": "wellness",
+  "description": "wellness ranking system",
+  "tests": [
+    {
+      "barcode": 747599308949,
+      "category": "snack-dessert",
+      "description": "Ghiradelli Chocolate",
+      "status": 200,
+      "properties": {
+        "name": "yes",
+        "value": 2
+      }
+    }
+  ]
+}

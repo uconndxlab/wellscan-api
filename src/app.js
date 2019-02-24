@@ -74,3 +74,5 @@ app.listen(PORT, () => {
     console.log(`Listening to localhost:${PORT}...`);
     console.log('Ctrl+C to quit.');
 })
+
+export default app;
