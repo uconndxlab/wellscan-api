@@ -7,7 +7,8 @@ chai.should();
 
 import wellness_test from "./wellness-test.json";
 import swap_test from "./swap-test.json";
-const rankings = [wellness_test, swap_test];
+import bad_system from "./bad_system.json";
+const rankings = [bad_system, wellness_test, swap_test];
 
 rankings.forEach( system => {
   describe(system.description, () => {

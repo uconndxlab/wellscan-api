@@ -1,0 +1,30 @@
+{
+  "name": "THis RanKinG System Does NOT EXist 123412310",
+  "description": "Passing in a wrong ranking system",
+  "tests": [
+    {
+      "category": "condiment",
+      "barcode": "042563016272",
+      "description": "Woodstock Organic Whole Cranberry Sauce",
+      "status": 400
+    },
+    {
+      "category": "grain",
+      "barcode": "030000169209",
+      "description": "Quaker Gluten Free Popped Rice Crisps, Caramel Corn Flavored",
+      "status": 400
+    },
+    {
+      "category": "bad-category",
+      "barcode": "632930413867",
+      "description": "Wrong Category",
+      "status": 400
+    },
+    {
+      "category": "dairy-yogurt",
+      "barcode": "bad-barcode",
+      "description": "Bad Barcode",
+      "status": 400
+    }
+  ]
+}

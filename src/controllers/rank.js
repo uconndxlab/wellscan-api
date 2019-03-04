@@ -11,11 +11,13 @@ router.get("/api/:system/:category/:barcode", (req, res, next) => {
   const system = db[req.params.system];
   if (!system) {
     res.status(400).send(req.params.system + " ranking system not found");
+    return;
   }
 
   const category = system["categories"][req.params.category];
   if (!category) {
     res.status(400).send(req.params.category + " category not found in " + system);
+    return;
   }
 
   res.locals.rankingInfo = {
@@ -38,6 +40,7 @@ router.get("/api/:system/:category/:barcode", (req, res, next) => {
       res
         .status(404)
         .send("Could not find nutrition information for " + req.params.barcode);
+      return;
     }
   );
 });
@@ -59,6 +62,7 @@ router.get("/api/:system/:category/:barcode", (req, res, next) => {
     while ( i < requirements.length && pass) {
       let r = requirements[i];
       let operator = operators[r.operator];
+
       pass = pass && operator(nutrition[r.property], r.value);
       i++;
     }

@@ -114,7 +114,7 @@
         ]
       }
     ],
-    "grains": [
+    "grain": [
       {
         "rank": "yes",
         "requirements": [

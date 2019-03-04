@@ -1,4 +1,4 @@
 export default {
-  "le": (x, y) => x < y,
+  "lt": (x, y) => x < y,
   "lte": (x, y) => x <= y,
 }

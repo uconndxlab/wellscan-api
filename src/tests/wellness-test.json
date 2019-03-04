@@ -11,6 +11,38 @@
         "rank": "yes",
         "value": 2
       }
+    },
+    {
+      "category": "grain",
+      "barcode": "030000169209",
+      "description": "Quaker Gluten Free Popped Rice Crisps, Caramel Corn Flavored",
+      "status": 200,
+      "properties": {
+        "rank": "yes",
+        "value": 2
+      }
+    },
+    {
+      "category": "dairy",
+      "barcode": "742365208454",
+      "description": "Horizon Organic Vanilla Low Fat Milk",
+      "status": 200,
+      "properties": {
+        "rank": "yes",
+        "value": 2
+      }
+    },
+    {
+      "category": "bad-category",
+      "barcode": "632930413867",
+      "description": "Wrong Category",
+      "status": 400
+    },
+    {
+      "category": "dairy",
+      "barcode": "bad-barcode",
+      "description": "Bad Barcode",
+      "status": 404
     }
   ]
 }
