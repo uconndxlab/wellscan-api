@@ -1,5 +1,5 @@
 import axios from "axios";
-import env from "./env";
+import env from "../env";
 
 export default class Nutritionix {
     constructor({nix_appId, nix_appKey, nix_endpoint}={}) {
