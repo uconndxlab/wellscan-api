@@ -4,11 +4,11 @@
     "yes": 2,
     "no": 1
   },
-  "default": "no",
+  "default-rank": "no",
   "categories": {
     "fresh-produce": [
       {
-        "ranking": "yes",
+        "rank": "yes",
         "requirements": [
           {
             "property": null,
@@ -20,7 +20,7 @@
     ],
     "canned-fruits": [
       {
-        "ranking": "yes",
+        "rank": "yes",
         "requirements": [
           {
             "property": "nf_sugars",
@@ -32,7 +32,7 @@
     ],
     "frozen-fruit": [
       {
-        "ranking": "yes",
+        "rank": "yes",
         "requirements": [
           {
             "property": "nf_sugars",
@@ -44,7 +44,7 @@
     ],
     "canned-vegetable": [
       {
-        "ranking": "yes",
+        "rank": "yes",
         "requirements": [
           {
             "property": "nf_sodium",
@@ -56,7 +56,7 @@
     ],
     "frozen-vegetable": [
       {
-        "ranking": "yes",
+        "rank": "yes",
         "requirements": [
           {
             "property": "nf_sodium",
@@ -68,7 +68,7 @@
     ],
     "protein-unprocessed-animal": [
       {
-        "ranking": "yes",
+        "rank": "yes",
         "requirements": [
           {
             "property": null,
@@ -80,7 +80,7 @@
     ],
     "protein-processed-animal": [
       {
-        "ranking": "yes",
+        "rank": "yes",
         "requirements": [
           {
             "property": "nf_sodium",
@@ -92,7 +92,7 @@
     ],
     "protein-plant-peanut-butter": [
       {
-        "ranking": "yes",
+        "rank": "yes",
         "requirements": [
           {
             "property": null,
@@ -104,7 +104,7 @@
     ],
     "protein-plant-bean": [
       {
-        "ranking": "yes",
+        "rank": "yes",
         "requirements": [
           {
             "property": "nf_sodium",
@@ -116,7 +116,7 @@
     ],
     "grains": [
       {
-        "ranking": "yes",
+        "rank": "yes",
         "requirements": [
           {
             "property": "nf_ingredient_statement",
@@ -133,7 +133,7 @@
     ],
     "cereal": [
       {
-        "ranking": "yes",
+        "rank": "yes",
         "requirements": [
           {
             "property": "nf_sugars",
@@ -145,7 +145,7 @@
     ],
     "beverages": [
       {
-        "ranking": "yes",
+        "rank": "yes",
         "requirements": [
           {
             "property": "nf_ingredient_statement",
@@ -157,7 +157,7 @@
     ],
     "dairy": [
       {
-        "ranking": "yes",
+        "rank": "yes",
         "requirements": [
           {
             "property": null,
@@ -169,7 +169,7 @@
     ],
     "dairy-alternative": [
       {
-        "ranking": "yes",
+        "rank": "yes",
         "requirements": [
           {
             "property": null,
@@ -181,7 +181,7 @@
     ],
     "sauce-condiment-spice": [
       {
-        "ranking": "yes",
+        "rank": "yes",
         "requirements": [
           {
             "property": "nf_sodium",
@@ -193,7 +193,7 @@
     ],
     "snack-dessert": [
       {
-        "ranking": "yes",
+        "rank": "yes",
         "requirements": [
           {
             "property": "nf_ingredient_statement",
@@ -203,7 +203,7 @@
         ]
       },
       {
-        "ranking": "yes",
+        "rank": "yes",
         "requirements": [
           {
             "property": "nf_sugars",

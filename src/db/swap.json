@@ -5,11 +5,11 @@
     "yellow": 2,
     "red": 1
   },
-  "default": "red",
+  "default-rank": "red",
   "categories": {
     "fruit": [
       {
-        "ranking": "green",
+        "rank": "green",
         "requirements": [
           {
             "property": "nf_saturated_fat",
@@ -29,7 +29,7 @@
         ]
       },
       {
-        "ranking": "yellow",
+        "rank": "yellow",
         "requirements": [
           {
             "property": "nf_saturated_fat",
@@ -51,7 +51,7 @@
     ],
     "vegetables": [
       {
-        "ranking": "green",
+        "rank": "green",
         "requirements": [
           {
             "property": "nf_saturated_fat",
@@ -71,7 +71,7 @@
         ]
       },
       {
-        "ranking": "yellow",
+        "rank": "yellow",
         "requirements": [
           {
             "property": "nf_saturated_fat",
@@ -93,7 +93,7 @@
     ],
     "grain": [
       {
-        "ranking": "green",
+        "rank": "green",
         "requirements": [
           {
             "property": "nf_saturated_fat",
@@ -113,7 +113,7 @@
         ]
       },
       {
-        "ranking": "yellow",
+        "rank": "yellow",
         "requirements": [
           {
             "property": "nf_saturated_fat",
@@ -135,7 +135,7 @@
     ],
     "protein-plant": [
       {
-        "ranking": "green",
+        "rank": "green",
         "requirements": [
           {
             "property": "nf_saturated_fat",
@@ -155,7 +155,7 @@
         ]
       },
       {
-        "ranking": "yellow",
+        "rank": "yellow",
         "requirements": [
           {
             "property": "nf_saturated_fat",
@@ -177,7 +177,7 @@
     ],
     "protein-animal": [
       {
-        "ranking": "green",
+        "rank": "green",
         "requirements": [
           {
             "property": "nf_saturated_fat",
@@ -197,7 +197,7 @@
         ]
       },
       {
-        "ranking": "yellow",
+        "rank": "yellow",
         "requirements": [
           {
             "property": "nf_saturated_fat",
@@ -219,7 +219,7 @@
     ],
     "combination-food-meal": [
       {
-        "ranking": "green",
+        "rank": "green",
         "requirements": [
           {
             "property": "nf_saturated_fat",
@@ -239,7 +239,7 @@
         ]
       },
       {
-        "ranking": "yellow",
+        "rank": "yellow",
         "requirements": [
           {
             "property": "nf_saturated_fat",
@@ -261,7 +261,7 @@
     ],
     "dairy-milk": [
       {
-        "ranking": "green",
+        "rank": "green",
         "requirements": [
           {
             "property": "nf_saturated_fat",
@@ -281,7 +281,7 @@
         ]
       },
       {
-        "ranking": "yellow",
+        "rank": "yellow",
         "requirements": [
           {
             "property": "nf_saturated_fat",
@@ -303,7 +303,7 @@
     ],
     "dairy-yogurt": [
       {
-        "ranking": "green",
+        "rank": "green",
         "requirements": [
           {
             "property": "nf_saturated_fat",
@@ -323,7 +323,7 @@
         ]
       },
       {
-        "ranking": "yellow",
+        "rank": "yellow",
         "requirements": [
           {
             "property": "nf_saturated_fat",
@@ -345,7 +345,7 @@
     ],
     "dairy-cheese": [
       {
-        "ranking": "green",
+        "rank": "green",
         "requirements": [
           {
             "property": "nf_saturated_fat",
@@ -365,7 +365,7 @@
         ]
       },
       {
-        "ranking": "yellow",
+        "rank": "yellow",
         "requirements": [
           {
             "property": "nf_saturated_fat",
@@ -387,7 +387,7 @@
     ],
     "condiment": [
       {
-        "ranking": "green",
+        "rank": "green",
         "requirements": [
           {
             "property": "nf_saturated_fat",
@@ -407,7 +407,7 @@
         ]
       },
       {
-        "ranking": "yellow",
+        "rank": "yellow",
         "requirements": [
           {
             "property": "nf_saturated_fat",
@@ -429,7 +429,7 @@
     ],
     "bevarage": [
       {
-        "ranking": "green",
+        "rank": "green",
         "requirements": [
           {
             "property": "nf_saturated_fat",
@@ -449,7 +449,7 @@
         ]
       },
       {
-        "ranking": "yellow",
+        "rank": "yellow",
         "requirements": [
           {
             "property": "nf_saturated_fat",
@@ -471,7 +471,7 @@
     ],
     "snack-dessert": [
       {
-        "ranking": "green",
+        "rank": "green",
         "requirements": [
           {
             "property": "nf_saturated_fat",
@@ -491,7 +491,7 @@
         ]
       },
       {
-        "ranking": "yellow",
+        "rank": "yellow",
         "requirements": [
           {
             "property": "nf_saturated_fat",

@@ -8,7 +8,7 @@
       "description": "Woodstock Organic Whole Cranberry Sauce",
       "status": 200,
       "properties": {
-        "name": "red",
+        "rank": "red",
         "value": 1
       }
     },
@@ -18,7 +18,7 @@
       "description": "Quaker Gluten Free Popped Rice Crisps, Caramel Corn Flavored",
       "status": 200,
       "properties": {
-        "name": "yellow",
+        "rank": "yellow",
         "value": 2
       }
     },
@@ -28,7 +28,7 @@
       "description": "Hippeas Organic Chickpea Puffs, Siracha Sunshine",
       "status": 200,
       "properties": {
-        "name": "green",
+        "rank": "green",
         "value": 3
       }
     },
@@ -38,7 +38,7 @@
       "description": "Horizon Organic Vanilla Low Fat Milk",
       "status": 200,
       "properties": {
-        "name": "yellow",
+        "rank": "yellow",
         "value": 2
       }
     },
@@ -48,7 +48,7 @@
       "description": "Bell's Traditional Stuffing",
       "status": 200,
       "properties": {
-        "name": "yellow",
+        "rank": "yellow",
         "value": 2
       }
     },
