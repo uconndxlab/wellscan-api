@@ -56,7 +56,7 @@
       "category": "bad-category",
       "barcode": "632930413867",
       "description": "Wrong Category",
-      "status": 404
+      "status": 400
     },
     {
       "category": "dairy-yogurt",
