@@ -42,7 +42,7 @@
       "category": "dairy",
       "barcode": "bad-barcode",
       "description": "Bad Barcode",
-      "status": 404
+      "status": 401
     }
   ]
 }

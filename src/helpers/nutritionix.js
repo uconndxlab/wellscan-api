@@ -7,8 +7,12 @@ export default class Nutritionix {
         this.appKey = nix_appKey || env.nix_appKey;
         this.upcEndpoint = nix_endpoint || env.nix_endpoint;
     }
-    getNutritionByUPC(upc, success, fail) {
-        const url = this.upcEndpoint + upc + "&appId=" + this.appId + "&appKey=" + this.appKey;
+
+    getNutritionByUPC(options, success, fail) {
+        const upc = options.barcode;
+        const id = options.appKey && options.appId || this.appId;
+        const key = options.appId && options.appKey || this.appKey;
+        const url = this.upcEndpoint + upc + "&appId=" + id + "&appKey=" + key;
         axios.get(url)
             .then(response => success(response))
             .catch( err => fail(err))

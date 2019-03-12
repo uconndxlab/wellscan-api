@@ -31,15 +31,20 @@ router.get("/api/:system/:category/:barcode", (req, res, next) => {
 
 router.get("/api/:system/:category/:barcode", (req, res, next) => {
   //get nutritionix data from barcode
-  nix.getNutritionByUPC(req.params.barcode,
+  let opt = {
+    barcode: req.params.barcode,
+    id: req.headers.nixId,
+    key: req.headers.nixKey
+  }
+  nix.getNutritionByUPC(opt,
     nutrition => {
       res.locals.nutrition = nutrition.data;
       next();
     },
     err => {
       res
-        .status(404)
-        .send("Could not find nutrition information for " + req.params.barcode);
+        .status(401)
+        .send("Failed to get nutrtion data: " + err.message);
       return;
     }
   );
