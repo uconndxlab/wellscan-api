@@ -107,6 +107,7 @@ router.get("/api/:system/:category/:barcode", (req, res) => {
   // the data sent back as response
   let data = {
     rank,
+    value:rankingInfo.values[rank],
     name: nutrition["item_name"],
     system: req.params.system,
     category: req.params.category,
