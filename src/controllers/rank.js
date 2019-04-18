@@ -12,6 +12,29 @@ import db from "../db";
 import { red } from "ansi-colors";
 import { deflateRawSync } from "zlib";
 
+
+router.get("/api/getFoodInfo/:barcode", (req, res) => {
+  // Check if we already have the food, in case we need to use this information later.
+  wsg.checkFoodExists(req.params.barcode, 
+    ret => {
+      var d = {};
+      if(ret.found) {
+        d = ret.data.data();
+        d.status = 200;
+        d.msg = "Product found in WellSCAN Global";
+      } else {
+        d.status = 404;
+        d.msg = "Product not found in WellSCAN Global";
+      }
+      res.status(200).send(d);
+    },
+    err => {
+      res
+        .status(401)
+        .send("Failed to contact WellSCAN Global: " + err.message);
+    });
+});
+
 router.get("/api/:system/:category/:barcode", (req, res, next) => {
   //check if system and category are valid before comparing nutrition information
   const system = db[req.params.system];
