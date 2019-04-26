@@ -14,6 +14,8 @@ import { deflateRawSync } from "zlib";
 
 
 router.get("/api/getFoodInfo/:barcode", (req, res) => {
+  res.set("Access-Control-Allow-Origin", "*")
+
   // Check if we already have the food, in case we need to use this information later.
   wsg.checkFoodExists(req.params.barcode, 
     ret => {
@@ -36,6 +38,7 @@ router.get("/api/getFoodInfo/:barcode", (req, res) => {
 });
 
 router.get("/api/:system/:category/:barcode", (req, res, next) => {
+  res.set("Access-Control-Allow-Origin", "*")
   //check if system and category are valid before comparing nutrition information
   const system = db[req.params.system];
   if (!system) {
