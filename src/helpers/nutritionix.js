@@ -3,9 +3,9 @@ import axios from "axios";
 
 export default class Nutritionix {
     constructor({nix_appId, nix_appKey, nix_endpoint}={}) {
-        this.appId = nix_appId || env.nix_appId || process.env.nix_appId;
-        this.appKey = nix_appKey || env.nix_appKey || process.env.nix_appKey;
-        this.upcEndpoint = nix_endpoint || env.nix_endpoint || process.env.nix_endpoint;
+        this.appId = nix_appId || process.env.nix_appId;
+        this.appKey = nix_appKey || process.env.nix_appKey;
+        this.upcEndpoint = nix_endpoint || process.env.nix_endpoint;
     }
 
     getNutritionByUPC(options, success, fail) {
