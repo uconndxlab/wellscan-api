@@ -3,9 +3,19 @@ const firebase = require("firebase");
 // Required for side-effects
 require("firebase/firestore");
 
+
 export default class WellScanGlobal {
     constructor() {
-        firebase.initializeApp(env.firebaseOpts);
+        var firebaseOpts = {
+            apiKey: process.env.firebaseApiKey || "AIzaSyCeZsQqloriPNrPUaVsEYtvAGmgdYPiA1Q",
+            authDomain: process.env.firebaseAuthDomain || "wellscan.firebaseapp.com",
+            databaseURL: process.env.firebaseDatabaseURL || "https://wellscan.firebaseio.com",
+            projectId: process.env.firebaseProjectId || "wellscan",
+            storageBucket: process.env.firebaseStorageBucket || "wellscan.appspot.com",
+            messagingSenderId: "477728865423"
+        }
+
+        firebase.initializeApp(firebaseOpts);
         this.db = firebase.firestore();
     }
 
