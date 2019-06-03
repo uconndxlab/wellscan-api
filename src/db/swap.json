@@ -91,7 +91,29 @@
         ]
       }
     ],
-    "grain": [
+    "grain-not-whole": [
+      {
+        "rank": "yellow",
+        "requirements": [
+          {
+            "property": "nf_saturated_fat",
+            "operator": "lte",
+            "value": 2
+          },
+          {
+            "property": "nf_sodium",
+            "operator": "lte",
+            "value": 400
+          },
+          {
+            "property": "nf_sugars",
+            "operator": "lte",
+            "value": 12
+          }
+        ]
+      }
+    ],
+    "grain-whole": [
       {
         "rank": "green",
         "requirements": [
@@ -133,6 +155,8 @@
         ]
       }
     ],
+
+
     "protein-plant": [
       {
         "rank": "green",
