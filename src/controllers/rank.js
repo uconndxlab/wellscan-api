@@ -1,14 +1,14 @@
 import express from "express";
 const router = express.Router();
 
-import Nutritionix from "../nutrition-sources/nutritionix";
-const nix = new Nutritionix();
+import sources from "../nutrition-sources";
 
 // import WellScanGlobal from "../helpers/wellscanglobal";
 // const wsg = new WellScanGlobal();
 
 import operators from "../operators";
 import db from "../db";
+import source_functions from "../nutrition-sources";
 // import { red } from "ansi-colors";
 // import { deflateRawSync } from "zlib";
 
@@ -36,6 +36,7 @@ import db from "../db";
 //         .send("Failed to contact WellSCAN Global: " + err.message);
 //     });
 // });
+
 
 router.get("/api/:system/:category/:barcode", (req, res, next) => {
   
@@ -72,31 +73,34 @@ router.get("/api/:system/:category/:barcode", (req, res, next) => {
   //       .send("Failed to contact WellSCAN Global: " + err.message);
   //   });
 });
-
-router.get("/api/:system/:category/:barcode", (req, res, next) => {
+source_functions.forEach(foo => {
+  router.get("/api/:system/:category/:barcode", foo);
+})
+// router.get("/api/:system/:category/:barcode", (req, res, next) => {
   
-    //get nutritionix data from barcode
-    let opt = {
-      barcode: req.params.barcode,
-      id: req.headers.nixId,
-      key: req.headers.nixKey
-    }
-    nix.getNutritionByUPC(opt,
-      nutrition => {
-        res.locals.nutrition = nutrition.data;
-        next();
-      },
-      err => {
-        res
-          .status(401)
-          .send("Failed to get nutrition data: " + err.message);
-        return;
-      }
-    );
-});
+//     //get nutritionix data from barcode
+//     let opt = {
+//       barcode: req.params.barcode,
+//       id: req.headers.nixId,
+//       key: req.headers.nixKey
+//     }
+//     nix.getNutritionByUPC(opt,
+//       nutrition => {
+//         res.locals.nutrition = nutrition.data;
+//         next();
+//       },
+//       err => {
+//         res
+//           .status(401)
+//           .send("Failed to get nutrition data: " + err.message);
+//         return;
+//       }
+//     );
+// });
 
 router.get("/api/:system/:category/:barcode", (req, res, next) => {
     // analyzing nutrition information and providing a rank to the food
+
     let nutrition = res.locals.nutrition;
     //let category = res.locals.rankingInfo.category || req.query.category;
     let system = db[req.params.system]
@@ -134,12 +138,13 @@ router.get("/api/:system/:category/:barcode", (req, res, next) => {
 });
 
 router.get("/api/:system/:category/:barcode", (req, res) => {
-  let {nutrition, value, rank } = res.locals;
+  let {nutrition, value, rank, nutrition_source } = res.locals;
   //console.log(res.locals)
   // the data sent back as response
   let data = {
     rank,
     value,
+    nutrition_source,
     name: nutrition["item_name"],
     system: req.params.system,
     category: req.params.category,
