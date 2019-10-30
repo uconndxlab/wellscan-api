@@ -73,9 +73,14 @@ router.get("/api/:system/:category/:barcode", (req, res, next) => {
   //       .send("Failed to contact WellSCAN Global: " + err.message);
   //   });
 });
+
+
+
 source_functions.forEach(foo => {
   router.get("/api/:system/:category/:barcode", foo);
 })
+
+
 // router.get("/api/:system/:category/:barcode", (req, res, next) => {
   
 //     //get nutritionix data from barcode

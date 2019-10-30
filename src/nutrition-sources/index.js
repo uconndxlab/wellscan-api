@@ -1,11 +1,38 @@
 import Nutritionix from "./nutritionix";
 import OpenFoodFacts from "./openfoodfacts";
+import USDA from "./usda";
 import express from "express";
 
 const off = new OpenFoodFacts();
 const nix = new Nutritionix();
+const usda = new USDA();
 
 let source_functions = [
+    function(req, res, next) {
+        if (!res.locals.nutrition) {
+            let opt = {
+                barcode: req.params.barcode,
+                key: req.params.appKey
+            }
+            usda.getNutritionByUPC(opt,
+                nutrition => {
+                    res.locals.nutrition = nutrition;
+                    //res.send(nutrition)
+                    res.locals.nutrition_source = usda.source;
+                    next();
+                },
+                response => {
+                    next(); // move onto next source in list if not found
+                },
+                err => {
+                    next();
+                 }
+            );
+        }
+        else {
+            next();
+        }
+    },
     function(req, res, next) {
         if (!res.locals.nutrition) {
             let opt = {
@@ -14,7 +41,7 @@ let source_functions = [
             off.getNutritionByUPC(opt,
                 nutrition => {
                     res.locals.nutrition = nutrition;
-                    //res.send(nutrition)
+                    //res.send(nutrition);
                     res.locals.nutrition_source = off.source;
                     next();
                 },
@@ -48,7 +75,7 @@ let source_functions = [
                 res.locals.nutrition_source = nix.source;
                 next();
             },
-            null, //do nothing if not found in db
+            response => next(), //do nothing if not found in db
             err => {
                 res
                 .status(401)

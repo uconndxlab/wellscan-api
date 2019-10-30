@@ -48,8 +48,8 @@
       "description": "Bell's Traditional Stuffing",
       "status": 200,
       "properties": {
-        "rank": "green",
-        "value": 3
+        "rank": "yellow",
+        "value": 2
       }
     },
     {

@@ -28,6 +28,7 @@ export default class OpenFoodFacts {
             .catch( err => fail(err))
     }
     convertFoodDataToSchema(old_data) {
+        
         const sv = np.get(old_data, "product.nutriments.sodium_unit")
         return {
             "item_name": np.get(old_data, "product.product_name"),
