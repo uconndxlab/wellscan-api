@@ -1,7 +1,6 @@
 import Nutritionix from "./nutritionix";
 import OpenFoodFacts from "./openfoodfacts";
 import USDA from "./usda";
-import express from "express";
 
 const off = new OpenFoodFacts();
 const nix = new Nutritionix();

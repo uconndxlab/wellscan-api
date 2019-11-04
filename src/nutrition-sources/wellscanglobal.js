@@ -2,7 +2,7 @@
 const firebase = require("firebase");
 // Required for side-effects
 require("firebase/firestore");
-
+const coll = "WellScanGlobal"
 
 export default class WellScanGlobal {
     constructor() {
@@ -20,7 +20,7 @@ export default class WellScanGlobal {
     }
 
     checkFoodExists(upc,success,err) {
-        var docRef = this.db.collection("foods").doc(upc);
+        var docRef = this.db.collection(coll).doc(upc);
         docRef.get().then(function(doc) {
             if (doc.exists) {
                 var ret = {
@@ -40,6 +40,6 @@ export default class WellScanGlobal {
     }
 
     addRecord(opts) {
-        this.db.collection("foods").doc(opts.upc).set(opts, {merge: true});
+        this.db.collection(coll).doc(opts.upc).set(opts, {merge: true});
     }
 }
