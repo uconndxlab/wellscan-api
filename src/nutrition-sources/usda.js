@@ -15,7 +15,7 @@ export default class USDA {
     getNutritionByUPC(options, success, notfound, fail) {
         
         const upc = options.barcode;
-        if (upc.length != 12 || isNaN(upc)) {
+        if (isNaN(upc)) {
             fail(new Error("Not a UPC barcde"))
             return;
         }
