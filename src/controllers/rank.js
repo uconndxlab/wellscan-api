@@ -57,7 +57,7 @@ router.get("/api/:system/:category/:barcode", (req, res, next) => {
   // Note: This will matter when we want to avoid external calls to nutrition sources.
 
   wsg.checkFoodExists(req.params.barcode, 
-     ret => {           
+     ret => {
       if (!ret.found) {
         next();
         return;
@@ -174,10 +174,14 @@ router.get("/api/:system/:category/:barcode", (req, res) => {
   }
  
   //prepare the record that will get added to WellSCAN Global
+  
   var fbrecord = {
     item_name:data.name,
     upc:data.barcode,
-    rankings:{}
+    rankings:{},
+    nutrition_facts: nutrition,
+    nutrition_source
+    
   }
   // more preppy stuffz
   fbrecord.rankings[data.system] = {
