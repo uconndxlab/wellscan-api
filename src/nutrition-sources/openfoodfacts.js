@@ -10,10 +10,6 @@ export default class OpenFoodFacts {
 
     getNutritionByUPC(options, success, notfound, fail) {
         const upc = options.barcode;
-        if (isNaN(upc)) {
-            fail(new Error("Not a UPC barcde"))
-            return;
-        }
         const url = this.upcEndpoint + upc + ".json";
     
         axios.get(url)
@@ -50,5 +46,32 @@ export default class OpenFoodFacts {
             "nf_calcium_dv": np.get(old_data, "product.nutriments.calcium_serving"),
             "nf_iron_dv": np.get(old_data, "product.nutriments.iron_serving")
           }
+    }
+    express_router(req, res, next) {
+        if (!res.locals.nutrition) {
+            let opt = {
+                barcode: req.params.barcode
+            }
+            this.getNutritionByUPC(opt,
+                nutrition => {
+                    res.locals.nutrition = nutrition;
+                    //res.send(nutrition);
+                    res.locals.nutrition_source = this.source;
+                    next();
+                },
+                response => {
+                    next(); // move onto next source in list if not found
+                },
+                err => {
+                    res
+                    .status(401)
+                    .send("Failed to get nutrition data: " + err.message);
+                    return;
+                 }
+            );
+        }
+        else {
+            next();
+        }
     }
 }

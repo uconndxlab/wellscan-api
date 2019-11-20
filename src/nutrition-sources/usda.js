@@ -13,7 +13,6 @@ export default class USDA {
     }
 
     getNutritionByUPC(options, success, notfound, fail) {
-        
         const upc = options.barcode;
         if (isNaN(upc)) {
             fail(new Error("Not a UPC barcde"))
@@ -48,7 +47,7 @@ export default class USDA {
             "nf_ingredient_statement": np.get(old_data, "ingredients"),
             "nf_water_grams": null,
             "nf_calories": np.get(old_data, "labelNutrients.calories.value"),
-            "nf_calories_from_fat": np.get(old_data, "product.labelNutrients.fat.value") * 9,
+            "nf_calories_from_fat": np.get(old_data, "labelNutrients.fat.value") * 9,
             "nf_total_fat": np.get(old_data, "labelNutrients.fat.value"),
             "nf_saturated_fat": np.get(old_data, "labelNutrients.saturatedFat.value"),
             "nf_trans_fatty_acid": np.get(old_data, "labelNutrients.transFat.value"),
@@ -63,5 +62,30 @@ export default class USDA {
             "nf_calcium_dv": np.get(old_data, "labelNutrients.calcium.value"),
             "nf_iron_dv": np.get(old_data, "labelNutrients.iron.value")
           }
+    }
+    express_router(req, res, next) {
+        if (!res.locals.nutrition) {
+            let opt = {
+                barcode: req.params.barcode,
+                key: req.params.appKey
+            }
+            this.getNutritionByUPC(opt,
+                nutrition => {
+                    res.locals.nutrition = nutrition;
+                    //res.send(nutrition)
+                    res.locals.nutrition_source = this.source;
+                    next();
+                },
+                response => {
+                    next(); // move onto next source in list if not found
+                },
+                err => {
+                    next();
+                 }
+            );
+        }
+        else {
+            next();
+        }
     }
 }

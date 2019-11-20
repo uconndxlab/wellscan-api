@@ -18,4 +18,32 @@ export default class Nutritionix {
             .then(response => success(response.data))
             .catch( err => fail(err))
     }
+
+    express_router(req, res, next) {
+  
+        //get nutritionix data from barcode
+        if (!res.locals.nutrition) {
+            let opt = {
+            barcode: req.params.barcode,
+            id: req.headers.nixId,
+            key: req.headers.nixKey
+            }
+            this.getNutritionByUPC(opt,
+            nutrition => {
+                res.locals.nutrition = nutrition;
+                res.locals.nutrition_source = this.source;
+                next();
+            },
+            response => next(), //do nothing if not found in db
+            err => {
+                res
+                .status(401)
+                .send("Failed to get nutrition data: " + err.message);
+                return;
+             }
+            );
+        } else {
+            next();
+        }
+    }
 }

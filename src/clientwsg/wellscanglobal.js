@@ -2,11 +2,11 @@
 const firebase = require("firebase");
 // Required for side-effects
 require("firebase/firestore");
-const coll = "WellScanGlobal"
+
 
 export default class WellScanGlobal {
     constructor() {
-        var firebaseOpts = {
+        const firebaseOpts = {
             apiKey: process.env.firebaseApiKey || "AIzaSyCeZsQqloriPNrPUaVsEYtvAGmgdYPiA1Q",
             authDomain: process.env.firebaseAuthDomain || "wellscan.firebaseapp.com",
             databaseURL: process.env.firebaseDatabaseURL || "https://wellscan.firebaseio.com",
@@ -16,10 +16,14 @@ export default class WellScanGlobal {
         }
 
         firebase.initializeApp(firebaseOpts);
+        
         this.db = firebase.firestore();
+        this.foodColl = "WellScanGlobal"
+        this.unidentifiedBarcodeColl = "WellScanGlobal_unidentifiedBarcodes"
     }
 
     checkFoodExists(upc,success,err) {
+        let coll = this.foodColl;
         var docRef = this.db.collection(coll).doc(upc);
         docRef.get().then(function(doc) {
             if (doc.exists) {
@@ -39,7 +43,31 @@ export default class WellScanGlobal {
 
     }
 
-    addRecord(opts) {
+    updateFoodRecord(opts) {
+        let coll = this.foodColl;
         this.db.collection(coll).doc(opts.upc).set(opts, {merge: true});
+    }
+    addUnidentifiedBarcode(opts) {
+        let coll = this.unidentifiedBarcodeColl;
+        let upc = opts.barcode;
+
+        let fbRecord = {
+            upc
+        }
+
+        let currRef = this.db.collection(coll).doc(upc);
+        currRef.get().then(doc => {
+            if (doc.exists) {
+                fbRecord.lastDate = (new Date()).toString();
+                fbRecord.numberOfCalls = doc.data.numberOfCalls += 1;
+            }
+            else {
+                let date = new Date();
+                fbRecord.lastDate = date.toString();
+                fbRecord.firstDate = date.toString();
+                fbRecord.numberOfCalls = 1
+            }
+            this.db.collection(coll).doc(upc).set(fbRecord, {merge: true});
+        })
     }
 }

@@ -6,11 +6,7 @@
       "barcode": "747599308949",
       "category": "snack-dessert",
       "description": "Ghiradelli Chocolate",
-      "status": 200,
-      "properties": {
-        "rank": "yes",
-        "value": 2
-      }
+      "status": 401
     },
     {
       "category": "grain",
