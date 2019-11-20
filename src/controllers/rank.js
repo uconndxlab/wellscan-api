@@ -87,8 +87,6 @@ router.get("/api/:system/:category/:barcode", (req, res, next) => {
     next();
     return;
   }
-  //console.log(res.locals)
-  // the data sent back as response
   let data = {
     rank,
     value,
