@@ -61,7 +61,7 @@ export default class OpenFoodFacts {
             "nf_calories": this.convertKCal(np.get(old_data, "product.nutriments.energy_serving")),
             "nf_calories_from_fat": this.convertFat(np.get(old_data, "product.nutriments.fat_serving")),
             "nf_total_fat": np.get(old_data, "product.nutriments.fat_serving"),
-            "nf_saturated_fat": this.convertSaturatedFat(old_data),
+            "nf_saturated_fat": this.convertSaturatedFat(np.get(old_data, "product.nutriments.saturated-fat_serving"), np.get(old_data, "product.nutriments.fat_serving")),
             "nf_trans_fatty_acid": np.get(old_data, "product.nutriments.trans-fat_serving"),
             "nf_cholesterol": np.get(old_data, "product.nutriments.cholesterol_serving"),
             "nf_sodium": this.convertSodium(sv, np.get(old_data, "product.nutriments.sodium_serving")),

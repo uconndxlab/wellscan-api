@@ -9,7 +9,6 @@ export default class USDA {
         this.fdcidEndpoint = usda_fdic_endpoint || env.usda_fdcid_endpoint;
         this.upcEndpoint = usda_upc_endpoint || env.usda_upc_endpoint;
         this.source = "usda";
-        //console.log(this.appKey, this.upcEndpoint)
     }
 
     getNutritionByUPC(options, success, notfound, fail) {
@@ -92,7 +91,6 @@ export default class USDA {
                 nut[key] = Math.round(nut[key])
             }
         });
-        console.log(nut);
         return nut;
     }
     express_router(req, res, next) {

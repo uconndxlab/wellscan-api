@@ -10,7 +10,6 @@ wsg.getAllFoods(docs => {
             let rank = fbdata.rankings[system].rank
             let barcode = fbdata.upc;
             let url = `http://localhost:8080/api/${system}/${category}/${barcode}`;
-            
             axios.get(url).then( res => {
                 console.log(url);
                 if (res.data.rank == rank) {
@@ -26,6 +25,7 @@ wsg.getAllFoods(docs => {
                         now_swap_rank: res.data.rank
                     })
                 }
+
                 
             }).catch( err => {
                 console.log(url);
@@ -38,7 +38,3 @@ wsg.getAllFoods(docs => {
     },
     300
 )
-
-// http.get('http://localhost:8080/api/swap/grain-not-whole/030000169209', function(res) {
-    
-// // });
