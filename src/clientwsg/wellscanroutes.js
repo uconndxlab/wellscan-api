@@ -39,6 +39,7 @@ const getFoodRanking = (req, res, next) => {
       next();
       return;
     }
+
     let rank = nutrition.rankings[sys].rank || null;
     let value = nutrition.rankings[sys].value || null;
     let nutrition_source = "wellscan_global";
@@ -60,39 +61,36 @@ const getFoodRanking = (req, res, next) => {
   err => next())
 }
 const updateFood = (req,res,next) => {
-  if (!res.locals.nutrition) {
+  if (res.locals.fail) {
     next();
     return;
   }
   let fbrecord = {
-    item_name:data.name,
-    upc:data.barcode,
+    item_name:res.locals.name,
+    upc: req.params.barcode,
     rankings:{},
-    nutrition_facts: nutrition,
-    nutrition_source
+    nutrition_facts: res.locals.nutrition,
+    nutrition_source: res.locals.nutrition_source 
     
   }
   // more preppy stuffz
-  fbrecord.rankings[data.system] = {
-    rank:rank,
+  fbrecord.rankings[req.params.system] = {
+    rank: res.locals.rank,
     category:req.params.category,
-    value: value
+    value: res.locals.value
   }
   
-  wsg.addRecord(fbrecord);
-
-  if(res.locals.alreadyFound)
-    data.msg = "Note: The food was already in WellSCAN Global. Updated as appropriate.";
-  else {
-    data.msg = "The food was not already in WellSCAN Global, but has been added."
-  }
+  wsg.updateFoodRecord(fbrecord);
 
 }
 
 const unidentifiedBarcode = (req, res, next) => {
-    if (!res.locals.nutrition) {
+    if (res.locals.fail) {
     let opt = {
-      barcode: req.params.barcode
+      barcode: req.params.barcode,
+      msg: res.locals.fail_msg,
+      nutrition: res.locals.nutrition,
+      nutrition_source: res.locals.nutrition_source
     }
     wsg.addUnidentifiedBarcode(opt)
     }

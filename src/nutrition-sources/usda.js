@@ -28,7 +28,7 @@ export default class USDA {
                 }
                 else {
                     let fdcid = response.data.foods[0].fdcId
-                    
+                
                     let fdcidUrl = this.upcEndpoint + fdcid +"?api_key=" + key;
                     //console.log(url, "\n", upc,  "\n", fdcid, "\n", fdcidUrl);
                   
@@ -41,15 +41,35 @@ export default class USDA {
             })
             .catch( err => fail(err))
     }
+
+    convertFat(g) {
+        return isNaN(g) ? undefined : Math.round(g * 9);
+    }
+    convertSaturatedFat(sat_fat, fat) {
+        if (isNaN(sat_fat)) {
+            if ( fat === 0) {
+                return 0;
+            }
+            else {
+                return undefined;
+            }
+        }
+        else {
+            return sat_fat;
+        }
+    }
+    
     convertFoodDataToSchema(old_data) {
-        return {
+        let saturatedFat = this.convertSaturatedFat(np.get(old_data, "labelNutrients.saturatedFat.value"), np.get(old_data, "labelNutrients.fat.value"));
+        
+        let nut = {
             "item_name": np.get(old_data, "description"),
             "nf_ingredient_statement": np.get(old_data, "ingredients"),
-            "nf_water_grams": null,
+            "nf_water_grams": undefined,
             "nf_calories": np.get(old_data, "labelNutrients.calories.value"),
-            "nf_calories_from_fat": np.get(old_data, "labelNutrients.fat.value") * 9,
+            "nf_calories_from_fat": this.convertFat(np.get(old_data, "labelNutrients.fat.value")),
             "nf_total_fat": np.get(old_data, "labelNutrients.fat.value"),
-            "nf_saturated_fat": np.get(old_data, "labelNutrients.saturatedFat.value"),
+            "nf_saturated_fat": saturatedFat,
             "nf_trans_fatty_acid": np.get(old_data, "labelNutrients.transFat.value"),
             "nf_cholesterol": np.get(old_data, "labelNutrients.cholesterol.value"),
             "nf_sodium": np.get(old_data, "labelNutrients.sodium.value"),
@@ -57,11 +77,23 @@ export default class USDA {
             "nf_dietary_fiber": np.get(old_data, "labelNutrients.fiber.value"),
             "nf_sugars": np.get(old_data, "labelNutrients.sugars.value"),
             "nf_protein": np.get(old_data, "labelNutrients.protein.value"),
-            "nf_vitamin_a_dv": null,
-            "nf_vitamin_c_dv": null,
+            "nf_vitamin_a_dv": undefined,
+            "nf_vitamin_c_dv": undefined,
             "nf_calcium_dv": np.get(old_data, "labelNutrients.calcium.value"),
             "nf_iron_dv": np.get(old_data, "labelNutrients.iron.value")
           }
+        
+        Object.keys(nut).forEach(key => {
+            if (nut[key] === undefined) {
+                // check for null
+                nut[key] = null;
+            } else if (!isNaN(nut[key])) {
+                // round all numbers
+                nut[key] = Math.round(nut[key])
+            }
+        });
+        console.log(nut);
+        return nut;
     }
     express_router(req, res, next) {
         if (!res.locals.nutrition) {

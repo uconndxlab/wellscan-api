@@ -20,6 +20,7 @@ export default class WellScanGlobal {
         this.db = firebase.firestore();
         this.foodColl = "WellScanGlobal"
         this.unidentifiedBarcodeColl = "WellScanGlobal_unidentifiedBarcodes"
+        this.mainColl = "foods";
     }
 
     checkFoodExists(upc,success,err) {
@@ -50,16 +51,21 @@ export default class WellScanGlobal {
     addUnidentifiedBarcode(opts) {
         let coll = this.unidentifiedBarcodeColl;
         let upc = opts.barcode;
-
+        let msg = opts.msg ? opts.msg : null;
+        let nutrition =  opts.nutrition ? opts.nutrition : null;
+        let nutrition_source = opts.nutrition_source ? opts.nutrition_source : null;
         let fbRecord = {
-            upc
+            upc,
+            msg,
+            nutrition,
+            nutrition_source
         }
 
         let currRef = this.db.collection(coll).doc(upc);
         currRef.get().then(doc => {
             if (doc.exists) {
                 fbRecord.lastDate = (new Date()).toString();
-                fbRecord.numberOfCalls = doc.data.numberOfCalls += 1;
+                fbRecord.numberOfCalls = (doc.data.numberOfCalls ? doc.data.numberOfCalls : 0) + 1;
             }
             else {
                 let date = new Date();
@@ -69,5 +75,18 @@ export default class WellScanGlobal {
             }
             this.db.collection(coll).doc(upc).set(fbRecord, {merge: true});
         })
+    }
+    getAllFoods(success, err, limit) {
+        let coll = "foods";
+
+        let collRef = this.db.collection(coll);
+
+        let foodDocs = collRef.orderBy('upc').limit(limit || 3)
+        let handle = foodDocs.get().then( docs => {
+            success(docs)
+        },
+        e => err(e)
+        );
+
     }
 }
