@@ -6,8 +6,8 @@ let np = require("nested-property");
 
 export default class FatSecret {
     constructor({usda_upc_endpoint, usda_key, usda_fdic_endpoint}={}) {
-        this.client_id = "7664f7c02abb408c8e08cf90b3e0f78a";
-        this.client_secret = "7c4819f0b8414223b26c6cbbe69b491a";
+        this.client_id = env.fs_id;
+        this.client_secret = env.fs_secret;
         this.fidEndpoint = "https://platform.fatsecret.com/rest/server.api";
         this.upcEndpoint = "https://platform.fatsecret.com/rest/server.api";
         this.source = "fat-secret";
