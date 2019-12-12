@@ -4,7 +4,10 @@ import app from '../app';
 
 chai.use(chaiHttp);
 chai.should();
-
+/*
+Bell's Traditional Stuffing 
+  sodium is reported .000538 mg not 538 mg from Open Food Facts
+*/
 import wellness_test from "./wellness-test.json";
 import swap_test from "./swap-test.json";
 import bad_system from "./bad_system.json";
@@ -15,6 +18,7 @@ rankings.forEach( system => {
     system.tests.forEach(test => {
       it(test.description || test.barcode, (done) => {
            let url = "/api/" + system.name + "/" + test.category + "/" + test.barcode
+           console.log(url);
            chai.request(app)
              .get(url)
              .end((err, res) => {
