@@ -5,9 +5,9 @@ let np = require("nested-property");
 
 export default class USDA {
     constructor({usda_upc_endpoint, usda_key, usda_fdic_endpoint}) {
-        this.appKey = usda_key || env.usda_key || process.env.usda_key;
-        this.fdcidEndpoint = usda_fdic_endpoint || env.usda_fdcid_endpoint || process.env.usda_fdcid_endpoint;
-        this.upcEndpoint = usda_upc_endpoint || env.usda_upc_endpoint || process.env.usda_upc_endpoint;
+        this.appKey = process.env.usda_key;
+        this.fdcidEndpoint = process.env.usda_fdcid_endpoint;
+        this.upcEndpoint = process.env.usda_upc_endpoint;
         this.source = "usda";
     }
 
