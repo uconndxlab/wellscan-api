@@ -1,4 +1,4 @@
-import Nutritionix from "./nutritionix";
+//import Nutritionix from "./nutritionix";
 import OpenFoodFacts from "./openfoodfacts";
 import USDA from "./usda";
 
