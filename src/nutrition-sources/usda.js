@@ -30,7 +30,6 @@ export default class USDA {
                 
                     let fdcidUrl = this.upcEndpoint + fdcid +"?api_key=" + key;
                     //console.log(url, "\n", upc,  "\n", fdcid, "\n", fdcidUrl);
-                  
                     axios.get(fdcidUrl)
                     .then(response2 => {
                         success(this.convertFoodDataToSchema(response2.data));

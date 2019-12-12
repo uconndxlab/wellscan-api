@@ -8,7 +8,8 @@ import nutrition_routes from "../nutrition-sources";
 import wsg_actions from "../clientwsg/wellscanroutes.js";
 
 
-//router.get("/api/:system/:category/:barcode", wsg_actions.gfr);
+router.get("/api/getFoodInfo/:barcode", wsg_actions.fe);
+
 router.get("/api/:system/:category/:barcode", (req, res, next) => {
   //Check if valid parameters
   res.set("Access-Control-Allow-Origin", "*")
@@ -43,6 +44,8 @@ router.get("/api/:system/:category/:barcode", (req, res, next) => {
 
 });
 
+router.get("/api/:system/:category/:barcode", wsg_actions.gfr);
+
 nutrition_routes.forEach(n_route => {
   router.get("/api/:system/:category/:barcode", n_route);
 })
@@ -51,7 +54,6 @@ router.get("/api/:system/:category/:barcode", (req, res, next) => {
     // analyzing nutrition information and providing a rank to the food
 
     let nutrition = res.locals.nutrition;
-    console.log(nutrition)
     //let category = res.locals.rankingInfo.category || req.query.category;
     if (!nutrition) {
       res.locals.fail = true;
@@ -107,7 +109,6 @@ router.get("/api/:system/:category/:barcode", (req, res, next) => {
 
 router.get("/api/:system/:category/:barcode", (req, res, next) => {
   if (res.locals.fail) {
-    console.log(res.locals.fail_msg)
     next();
     return;
   }

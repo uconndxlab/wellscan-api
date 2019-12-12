@@ -1,7 +1,9 @@
 import axios from "axios";
 import WellScanGlobal from "../clientwsg/wellscanglobal";
 const wsg = new WellScanGlobal();
-
+let g = 0;
+let m = 0;
+let f = 0;
 wsg.getAllFoods(docs => {
         docs.forEach(doc => {
             let fbdata = doc.data();
@@ -29,7 +31,12 @@ wsg.getAllFoods(docs => {
                 
             }).catch( err => {
                 console.log(url);
-                console.log("    OTHER:", barcode, err.response.data.status, err.response.data.msg);
+                if (err.response) {
+                    console.log("    OTHER:", barcode, err.response.data.status, err.response.data.msg);
+                }
+                else {
+                    console.log("    UNKNOWN ERROR");
+                }
             })
         })
     },

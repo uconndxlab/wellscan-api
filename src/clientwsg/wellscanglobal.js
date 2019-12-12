@@ -81,7 +81,7 @@ export default class WellScanGlobal {
 
         let collRef = this.db.collection(coll);
 
-        let foodDocs = collRef.orderBy('upc').limit(limit || 3)
+        let foodDocs = collRef.orderBy('upc')
         let handle = foodDocs.get().then( docs => {
             success(docs)
         },
