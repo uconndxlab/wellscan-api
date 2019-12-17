@@ -5,19 +5,21 @@ let np = require("nested-property");
 
 
 export default class FatSecret {
-    constructor({usda_upc_endpoint, usda_key, usda_fdic_endpoint}={}) {
+    constructor() {
         this.client_id = env.fs_id;
         this.client_secret = env.fs_secret;
+        this.acccessTokenEndpoint = 'https://oauth.fatsecret.com/connect/token';
         this.fidEndpoint = "https://platform.fatsecret.com/rest/server.api";
         this.upcEndpoint = "https://platform.fatsecret.com/rest/server.api";
         this.source = "fat-secret";
-        //console.log(this.appKey, this.upcEndpoint)
+        this.access_token = false;
+        
+        this.refreshAccessToken()
     }
     refreshAccessToken(success, fail) {
         let opt = { 
             method: 'POST',
-            url: 'https://oauth.fatsecret.com/connect/token',
-            method : 'POST',
+            url: this.acccessTokenEndpoint,
             auth : {
                 user : this.client_id,
                 password : this.client_secret
@@ -25,81 +27,127 @@ export default class FatSecret {
             headers: { 'content-type': 'application/json'},
             form: {
                 'grant_type': 'client_credentials',
-                'scope' : 'basic'
+                'scope' : 'barcode'
             },
             json: true 
         };
-        request(options, (error, response, body) => {
+        
+        request(opt, (error, response) => {
             if (error) {
-                this.access_key = null;
-                fail(error);
+                this.access_token = null;
+                if (fail) {
+                    fail(error);
+                }
+                return;
             }
-            success(response, body)
+            this.access_token = response.body.access_token;
+            if (success) {
+                success(response)
+            }
         });
     }
     getNutritionByUPC(options, success, notfound, fail) {
-        
         const upc = options.barcode;
-        if (isNaN(upc)) {
-            fail(new Error("Not a UPC barcde"))
-            return;
-        }
-        const key = options.appId && options.appKey || this.appKey;
-        const url = this.fidEndpoint;
+        const access_token = this.access_token;
+        let context = this;
 
+        let fid_opts = { method: 'POST',
+        url: 'https://platform.fatsecret.com/rest/server.api',
+        qs: {   method: 'food.find_id_for_barcode',
+                barcode: upc,
+                format: 'json' 
+            },
+        headers: {
+                Authorization: 'Bearer ' + access_token,
+                'Content-Type': 'application/json' 
+            } 
+        };
 
-        const headers = {
-            'Content-Type': 'application/json',
-            'Authorization': key
-        }
-        const params = {
-            method: "food.find_id_for_barcode",
-            barcode: upc,
-            format: "json"
-        }
-        console.log(url, params, headers)
-        axios.post(url, params, { header: headers })
-            .then(response => {
-                success(response);
-                // if (response.totalHits < 1) {
-                //     notfound(response);
-                //     return;
-                // }
-                // else {
-                //     let fdcid = response.data.foods[0].fdcId
-                    
-                //     let fdcidUrl = this.upcEndpoint + fdcid +"?api_key=" + key;
-                //     //console.log(url, "\n", upc,  "\n", fdcid, "\n", fdcidUrl);
-                  
-                //     axios.get(fdcidUrl)
-                //     .then(response2 => {
-                //         success(this.convertFoodDataToSchema(response2.data));
-                //     })
-                //     .catch( err => fail(err))
-                // }
+        request(fid_opts, function (error, response, body) {
+            //console.log(response)
+            if (error) throw new Error(error);
+
+            let fid_json = JSON.parse(body)
+            if (!fid_json.food_id) {
+                notfound();
+                return;
+            }
+            let fid = fid_json.food_id.value;
+
+            let options = { method: 'POST',
+            url: 'https://platform.fatsecret.com/rest/server.api',
+            qs: { 
+                method: 'food.get', food_id: fid, format: 'json' 
+            },
+            headers: { 
+                    Authorization: 'Bearer ' + access_token,
+                    'Content-Type': 'application/json' 
+                }
+            };
+
+            request(options, (error2, response2, body2) => {
+                if (error2) throw new Error(error2);
+
+                let nutrition = context.convertFoodDataToSchema(JSON.parse(body2));
+                success(nutrition);
             })
-            .catch( err => fail(err))
+
+        })
+        
+
     }
     convertFoodDataToSchema(old_data) {
-        return {
-            "item_name": np.get(old_data, "description"),
-            "nf_ingredient_statement": np.get(old_data, "ingredients"),
+        let nut = {
+            "item_name": np.get(old_data, "food.food_name"),
+            "nf_ingredient_statement": null,
             "nf_water_grams": null,
-            "nf_calories": np.get(old_data, "labelNutrients.calories.value"),
-            "nf_calories_from_fat": np.get(old_data, "product.labelNutrients.fat.value") * 9,
-            "nf_total_fat": np.get(old_data, "labelNutrients.fat.value"),
-            "nf_saturated_fat": np.get(old_data, "labelNutrients.saturatedFat.value"),
-            "nf_trans_fatty_acid": np.get(old_data, "labelNutrients.transFat.value"),
-            "nf_cholesterol": np.get(old_data, "labelNutrients.cholesterol.value"),
-            "nf_sodium": np.get(old_data, "labelNutrients.sodium.value"),
-            "nf_total_carbohydrate": np.get(old_data, "labelNutrients.carbohydrates.value"),
-            "nf_dietary_fiber": np.get(old_data, "labelNutrients.fiber.value"),
-            "nf_sugars": np.get(old_data, "labelNutrients.sugars.value"),
-            "nf_protein": np.get(old_data, "labelNutrients.protein.value"),
-            "nf_vitamin_a_dv": null,
-            "nf_vitamin_c_dv": null,
-            "nf_calcium_dv": np.get(old_data, "labelNutrients.calcium.value"),
-            "nf_iron_dv": np.get(old_data, "labelNutrients.iron.value")
-          }
+            "nf_calories": np.get(old_data, "food.servings.serving.calories"),
+            "nf_calories_from_fat": np.get(old_data, "food.servings.serving.fat") * 9,
+            "nf_total_fat": np.get(old_data, "food.servings.serving.fat"),
+            "nf_saturated_fat": np.get(old_data, "food.servings.serving.saturated_fat"),
+            "nf_trans_fatty_acid": np.get(old_data, "food.servings.serving.trans_fat"),
+            "nf_cholesterol": np.get(old_data, "food.servings.serving.cholesterol"),
+            "nf_sodium": np.get(old_data, "food.servings.serving.sodium"),
+            "nf_total_carbohydrate": np.get(old_data, "food.servings.serving.carbohydrate"),
+            "nf_dietary_fiber": np.get(old_data, "food.servings.serving.fiber"),
+            "nf_sugars": np.get(old_data, "food.servings.serving.sugar"),
+            "nf_protein": np.get(old_data, "food.servings.serving.protein"),
+            "nf_vitamin_a_dv": np.get(old_data, "food.servings.serving.vitamin_a"),
+            "nf_vitamin_c_dv": np.get(old_data, "food.servings.serving.vitamin_c"),
+            "nf_calcium_dv": np.get(old_data, "food.servings.serving.calcium"),
+            "nf_iron_dv": np.get(old_data, "food.servings.serving.iron")
+        }
+        Object.keys(nut).forEach(key => {
+            if (nut[key] === undefined || nut[key] === null) {
+                nut[key] = null;
+            } else if (!isNaN(nut[key])) {
+                // round all numbers
+                nut[key] = Math.round(nut[key])
+            }
+        });
+        return nut;
+    }
+    express_router(req, res, next) {
+        if (!res.locals.nutrition) {
+            let opt = {
+                barcode: req.params.barcode,
+            }
+            this.getNutritionByUPC(opt,
+            nutrition => {
+                res.locals.nutrition = nutrition;
+                res.locals.nutrition_source = this.source;
+                next();
+            },
+            response => next(), //do nothing if not found in db
+            err => {
+                res
+                .status(401)
+                .send("Failed to get nutrition data: " + err.message);
+                return;
+             }
+            );
+        } else {
+            next();
+        }
     }
 }
