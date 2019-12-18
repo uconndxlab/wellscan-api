@@ -3,7 +3,6 @@ const request = require("request");
 import env from "../env";
 let np = require("nested-property");
 
-
 export default class FatSecret {
     constructor() {
         this.client_id = env.fs_id;
@@ -65,15 +64,21 @@ export default class FatSecret {
 
         request(fid_opts, function (error, response, body) {
             //console.log(response)
-            if (error) throw new Error(error);
+            if (error) {
+                fail(error)
+            }
 
             let fid_json = JSON.parse(body)
+            
             if (!fid_json.food_id) {
                 notfound();
                 return;
             }
             let fid = fid_json.food_id.value;
-
+            if (!fid) {
+                notfound();
+                return;
+            }
             let options = { method: 'POST',
             url: 'https://platform.fatsecret.com/rest/server.api',
             qs: { 
@@ -86,7 +91,9 @@ export default class FatSecret {
             };
 
             request(options, (error2, response2, body2) => {
-                if (error2) throw new Error(error2);
+                if (error2) {
+                    fail(error2)
+                }
 
                 let nutrition = context.convertFoodDataToSchema(JSON.parse(body2));
                 success(nutrition);
@@ -140,10 +147,7 @@ export default class FatSecret {
             },
             response => next(), //do nothing if not found in db
             err => {
-                res
-                .status(401)
-                .send("Failed to get nutrition data: " + err.message);
-                return;
+                next();
              }
             );
         } else {
