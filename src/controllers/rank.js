@@ -44,7 +44,7 @@ router.get("/api/:system/:category/:barcode", (req, res, next) => {
 
 });
 
-//router.get("/api/:system/:category/:barcode", wsg_actions.gfr);
+router.get("/api/:system/:category/:barcode", wsg_actions.gfr);
 
 nutrition_routes.forEach(n_route => {
   router.get("/api/:system/:category/:barcode", n_route);
@@ -54,7 +54,6 @@ router.get("/api/:system/:category/:barcode", (req, res, next) => {
     // analyzing nutrition information and providing a rank to the food
 
     let nutrition = res.locals.nutrition;
-    //let category = res.locals.rankingInfo.category || req.query.category;
     if (!nutrition) {
       res.locals.fail = true;
       res.locals.fail_msg = "Could not find nutrition information";
