@@ -1,4 +1,3 @@
-import axios from "axios";
 const request = require("request");
 import env from "../env";
 let np = require("nested-property");
@@ -12,10 +11,14 @@ export default class FatSecret {
         this.upcEndpoint = "https://platform.fatsecret.com/rest/server.api";
         this.source = "fat-secret";
         this.access_token = false;
-        
+
         this.refreshAccessToken()
+        setInterval(function() {
+            this.refreshAccessToken();
+        }.bind(this), 86402 * 1000);
     }
     refreshAccessToken(success, fail) {
+        const context = this;
         let opt = { 
             method: 'POST',
             url: this.acccessTokenEndpoint,
@@ -33,23 +36,24 @@ export default class FatSecret {
         
         request(opt, (error, response) => {
             if (error) {
-                this.access_token = null;
+                context.access_token = null;
                 if (fail) {
                     fail(error);
                 }
                 return;
             }
-            this.access_token = response.body.access_token;
+
+            context.access_token = response.body.access_token;
+            
             if (success) {
-                success(response)
+                success()
             }
         });
     }
     getNutritionByUPC(options, success, notfound, fail) {
         const upc = options.barcode;
         const access_token = this.access_token;
-        let context = this;
-
+        const context = this;
         let fid_opts = { method: 'POST',
         url: 'https://platform.fatsecret.com/rest/server.api',
         qs: {   method: 'food.find_id_for_barcode',
@@ -63,18 +67,21 @@ export default class FatSecret {
         };
 
         request(fid_opts, function (error, response, body) {
-            //console.log(response)
-            if (error) {
+            let json = JSON.parse(body);
+            if (error || json.error) {
+                
+                if (json.error.code == 13) {
+                    context.refreshAccessToken();
+                }
                 fail(error)
             }
 
-            let fid_json = JSON.parse(body)
             
-            if (!fid_json.food_id) {
+            if (!json.food_id) {
                 notfound();
                 return;
             }
-            let fid = fid_json.food_id.value;
+            let fid = json.food_id.value;
             if (!fid) {
                 notfound();
                 return;
