@@ -1,6 +1,16 @@
 const request = require("request");
 import env from "../env";
-let np = require("nested-property");
+const np = require("nested-property");
+const get = np.get;
+np.get = function(json, key) {
+    let val = get(json,key);
+    if (isNaN(val)) {
+        return val;
+    }
+    else {
+        return parseInt(val);
+    }
+}
 
 export default class FatSecret {
     constructor() {
@@ -76,8 +86,7 @@ export default class FatSecret {
                 fail(error)
             }
 
-            
-            if (!json.food_id) {
+            if (!json.food_id || json.food_id.value === '0' || !json.food_id.value) {
                 notfound();
                 return;
             }
@@ -107,8 +116,19 @@ export default class FatSecret {
             })
 
         })
-        
-
+    }
+    convertSaturatedFat(sat_fat, fat) {
+        if (isNaN(sat_fat)) {
+            if (fat === 0) {
+                return 0;
+            }
+            else {
+                return undefined;
+            }
+        }
+        else {
+            return sat_fat;
+        }
     }
     convertFoodDataToSchema(old_data) {
         let nut = {
@@ -116,9 +136,9 @@ export default class FatSecret {
             "nf_ingredient_statement": null,
             "nf_water_grams": null,
             "nf_calories": np.get(old_data, "food.servings.serving.calories"),
-            "nf_calories_from_fat": np.get(old_data, "food.servings.serving.fat") * 9,
+            "nf_calories_from_fat": np.get(old_data, "food.servings.serving.fat") ? np.get(old_data, "food.servings.serving.fat") * 9 : undefined,
             "nf_total_fat": np.get(old_data, "food.servings.serving.fat"),
-            "nf_saturated_fat": np.get(old_data, "food.servings.serving.saturated_fat"),
+            "nf_saturated_fat": this.convertSaturatedFat(np.get(old_data, "food.servings.serving.saturated_fat"), np.get(old_data, "food.servings.serving.fat")),
             "nf_trans_fatty_acid": np.get(old_data, "food.servings.serving.trans_fat"),
             "nf_cholesterol": np.get(old_data, "food.servings.serving.cholesterol"),
             "nf_sodium": np.get(old_data, "food.servings.serving.sodium"),
