@@ -66,7 +66,7 @@ const updateFood = (req,res,next) => {
     return;
   }
   let fbrecord = {
-    item_name:res.locals.name,
+    item_name:res.locals.name || res.locals.nutrition.item_name,
     upc: req.params.barcode,
     rankings:{},
     nutrition_facts: res.locals.nutrition,
@@ -74,10 +74,12 @@ const updateFood = (req,res,next) => {
     
   }
   // more preppy stuffz
-  fbrecord.rankings[req.params.system] = {
-    rank: res.locals.rank,
-    category:req.params.category,
-    value: res.locals.value
+  if (req.params.system) {
+    fbrecord.rankings[req.params.system] = {
+      rank: res.locals.rank,
+      category:req.params.category,
+      value: res.locals.value
+    }
   }
   
   wsg.updateFoodRecord(fbrecord);
@@ -97,9 +99,29 @@ const unidentifiedBarcode = (req, res, next) => {
     next();
 
 }
+
+const getNutritionFromWSG = (req, res, next) => {
+  wsg.checkFoodExists(req.params.barcode, 
+     ret => {         
+      if (!ret.found) {
+        res.locals.inwsg = false;
+        next(); 
+        return;
+      }
+      
+      let data = ret.data.data();
+      res.locals.inwsg = true;
+      res.locals.nutrition = data.nutrition_facts;
+      res.locals.nutrition_source = data.nutrition_source;
+      next();
+      return;
+  });
+}
+
 export default {
   fe: foodExists,
   gfr: getFoodRanking,
   uf: updateFood,
-  ub: unidentifiedBarcode
+  ub: unidentifiedBarcode,
+  gn: getNutritionFromWSG
 }

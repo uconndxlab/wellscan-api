@@ -7,9 +7,6 @@ import db from "../db";
 import nutrition_routes from "../nutrition-sources";
 import wsg_actions from "../clientwsg/wellscanroutes.js";
 
-
-router.get("/api/getFoodInfo/:barcode", wsg_actions.fe);
-
 router.get("/api/:system/:category/:barcode", (req, res, next) => {
   //Check if valid parameters
   res.set("Access-Control-Allow-Origin", "*")
