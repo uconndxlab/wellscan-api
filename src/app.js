@@ -1,8 +1,10 @@
 import express from "express";
 import rank from "./controllers/rank";
+import foodInfo from "./controllers/foodinfo";
 
 const app = express();
 
+app.use(foodInfo);
 app.use(rank);
 
 app.get("/", (req, res) => {
