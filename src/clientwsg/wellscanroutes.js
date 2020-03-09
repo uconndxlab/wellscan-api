@@ -113,6 +113,9 @@ const getNutritionFromWSG = (req, res, next) => {
       res.locals.inwsg = true;
       res.locals.nutrition = data.nutrition_facts;
       res.locals.nutrition_source = data.nutrition_source;
+      if (data.rankings) {
+        res.locals.rankings = data.rankings;
+      }
       next();
       return;
   });
