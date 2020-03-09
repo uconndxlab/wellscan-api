@@ -33,12 +33,15 @@ nutrition_routes.forEach( r => {
 router.get("/api/nutrition/:barcode", (req,res,next) => {
   let nutrition = res.locals.nutrition;
   let nutrition_source = res.locals.inwsg ? "wsg" : res.locals.nutrition_source
+  let rankings = res.locals.rankings;
+
   if (nutrition) {
     wsg_actions.uf(req,res,next);
     res.status(200);
     res.send({
       nutrition,
-      nutrition_source
+      nutrition_source,
+      rankings
     })
   }
   else {
