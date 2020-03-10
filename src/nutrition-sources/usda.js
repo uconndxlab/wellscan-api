@@ -1,5 +1,6 @@
 import axios from "axios";
 import env from "../env";
+import checkFunc from "../db/nutrition-check";
 let np = require("nested-property");
 
 
@@ -98,12 +99,24 @@ export default class USDA {
                 barcode: req.params.barcode,
                 key: req.params.appKey
             }
+            
+            
             this.getNutritionByUPC(opt,
                 nutrition => {
-                    res.locals.nutrition = nutrition;
-                    //res.send(nutrition)
-                    res.locals.nutrition_source = this.source;
+                    let check = checkFunc[req.params.system];
+                    if (typeof(check) === "function") {
+                        if (check(nutrition)) {
+                            console.log("hello usda")
+                            res.locals.nutrition = nutrition;
+                            res.locals.nutrition_source = this.source;
+                        }
+                    }
+                    else {
+                        res.locals.nutrition = nutrition;
+                        res.locals.nutrition_source = this.source;
+                    }
                     next();
+                    
                 },
                 response => {
                     next(); // move onto next source in list if not found

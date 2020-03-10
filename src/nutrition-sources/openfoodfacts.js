@@ -1,5 +1,7 @@
 import axios from "axios";
 let np = require("nested-property");
+import checkFunc from "../db/nutrition-check";
+
 
 export default class OpenFoodFacts {
     constructor() {
@@ -92,10 +94,22 @@ export default class OpenFoodFacts {
             }
             this.getNutritionByUPC(opt,
                 nutrition => {
-                    res.locals.nutrition = nutrition;
-                    //res.send(nutrition);
-                    res.locals.nutrition_source = this.source;
-                    next();
+                    let check = checkFunc[req.params.system];
+                    if (typeof(check) === "function") {
+                        console.log('hello oof')
+                        if (check(nutrition)) {
+                            res.locals.nutrition = nutrition;
+                            res.locals.nutrition_source = this.source;
+                            next();
+                        } else {
+                            next();
+                        }
+                    }
+                    else {
+                        res.locals.nutrition = nutrition;
+                        res.locals.nutrition_source = this.source;
+                        next();
+                    }
                 },
                 response => {
                     next(); // move onto next source in list if not found
