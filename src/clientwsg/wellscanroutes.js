@@ -86,6 +86,20 @@ const updateFood = (req,res,next) => {
 
 }
 
+const updateNutrition = (req,res,next) => {
+  let fbrecord = {
+    item_name:res.locals.name || res.locals.nutrition.item_name,
+    upc: req.params.barcode,
+    rankings: res.locals.rankings ? res.locals.rankings : {},
+    nutrition_facts: res.locals.nutrition,
+    nutrition_source: res.locals.nutrition_source 
+    
+  }
+  
+  wsg.updateFoodRecord(fbrecord);
+
+}
+
 const unidentifiedBarcode = (req, res, next) => {
     if (res.locals.fail) {
     let opt = {
@@ -126,5 +140,6 @@ export default {
   gfr: getFoodRanking,
   uf: updateFood,
   ub: unidentifiedBarcode,
-  gn: getNutritionFromWSG
+  gn: getNutritionFromWSG,
+  un: updateNutrition
 }

@@ -36,7 +36,7 @@ router.get("/api/nutrition/:barcode", (req,res,next) => {
   let rankings = res.locals.rankings;
 
   if (nutrition) {
-    wsg_actions.uf(req,res,next);
+    wsg_actions.un(req,res,next);
     res.status(200);
     res.send({
       nutrition,
