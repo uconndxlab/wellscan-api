@@ -11,6 +11,7 @@ np.get = function(json, key) {
         return parseInt(val);
     }
 }
+import checkFunc from "../db/nutrition-check";
 
 export default class FatSecret {
     constructor() {
@@ -168,8 +169,19 @@ export default class FatSecret {
             }
             this.getNutritionByUPC(opt,
             nutrition => {
-                res.locals.nutrition = nutrition;
-                res.locals.nutrition_source = this.source;
+                //console.log("hello fatsecret")
+                let check = checkFunc[req.params.system];
+                if (typeof(check) === "function") {
+                    console.log("hello fatsecret")
+                    if (check(nutrition)) {
+                        res.locals.nutrition = nutrition;
+                        res.locals.nutrition_source = this.source;
+                    }
+                }
+                else {
+                    res.locals.nutrition = nutrition;
+                    res.locals.nutrition_source = this.source;
+                }
                 next();
             },
             response => next(), //do nothing if not found in db
