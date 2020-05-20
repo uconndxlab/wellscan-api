@@ -41,8 +41,10 @@ router.get("/api/:system/:category/:barcode", (req, res, next) => {
 
 });
 
+//first see if rank is in WSG
 router.get("/api/:system/:category/:barcode", wsg_actions.gfr);
 
+//then try our sister sources
 nutrition_routes.forEach(n_route => {
   router.get("/api/:system/:category/:barcode", n_route);
 })
@@ -81,7 +83,6 @@ router.get("/api/:system/:category/:barcode", (req, res, next) => {
             return;
           }
           pass = pass && operator(nutrition[r.property], r.value);
-          //console.log(check.rank, r.property, nutrition[r.property],r.operator, r.value)
           i++;
         }
 
@@ -103,12 +104,15 @@ router.get("/api/:system/:category/:barcode", (req, res, next) => {
    
 });
 
+//sending nutrition info off to client
 router.get("/api/:system/:category/:barcode", (req, res, next) => {
+
   if (res.locals.fail) {
+    //if we failed to find rank, close this route and go to next
     next();
     return;
   }
-
+  // if did not fail, then let's send it to client
   let {nutrition, value, rank, nutrition_source } = res.locals;
   
   let data = {
@@ -128,9 +132,12 @@ router.get("/api/:system/:category/:barcode", (req, res, next) => {
   next();
 });
 
+//route for updating food info in WSG; will pass if we failed
 router.get("/api/:system/:category/:barcode", wsg_actions.uf);
+//route for recording unidentified barcode; will pass if we found rank
 router.get("/api/:system/:category/:barcode", wsg_actions.ub);
 
+// when we tried everything but we still failed, send a 404
 router.get("/api/:system/:category/:barcode", (req, res, next) => {
   if (res.locals.fail) {
     res.status(404).send({

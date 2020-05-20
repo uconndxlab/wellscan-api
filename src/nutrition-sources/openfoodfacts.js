@@ -9,6 +9,7 @@ export default class OpenFoodFacts {
     }
 
     getNutritionByUPC(options, success, notfound, fail) {
+        //get json from url. no auth needed
         const upc = options.barcode;
         const url = this.upcEndpoint + upc + ".json";
     
@@ -24,15 +25,19 @@ export default class OpenFoodFacts {
             .catch( err => fail(err))
     }
     convertKCal(kJ) {
+        //help convert
         return isNaN(kJ) ? undefined : Math.round(kJ / 4.184)
     }
     convertCalcium(g) {
+        //help convert
         return isNaN(g) ? undefined : Math.round(g * 1000)
     }
     convertFat(g) {
+        //help convert
         return isNaN(g) ? undefined : Math.round(g * 9);
     }
     convertSaturatedFat(sat_fat, fat) {
+        //help convert
         if (isNaN(sat_fat)) {
             if (fat === 0) {
                 return 0;
@@ -46,13 +51,14 @@ export default class OpenFoodFacts {
         }
     }
     convertSodium(sv, sod) {
+        //help convert
         if (isNaN(sod)) {
             return undefined;
         }
         return sv == "mg" ? sod : sv == "g" ? sod * 1000 : undefined;
     }
     convertFoodDataToSchema(old_data) {
-        
+        // convert current nutrition info to our parameters
         const sv = np.get(old_data, "product.nutriments.sodium_unit")
         let nut = {
             "item_name": np.get(old_data, "product.product_name"),
@@ -86,14 +92,15 @@ export default class OpenFoodFacts {
         return nut;
     }
     express_router(req, res, next) {
+        //the acutal router
         if (!res.locals.nutrition) {
             let opt = {
                 barcode: req.params.barcode
             }
+            // if we do not have nutrition yet, then we try this route to find nutrition
             this.getNutritionByUPC(opt,
                 nutrition => {
                     res.locals.nutrition = nutrition;
-                    //res.send(nutrition);
                     res.locals.nutrition_source = this.source;
                     next();
                 },

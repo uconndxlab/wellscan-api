@@ -25,10 +25,12 @@ const foodExists = (req, res) => {
   });
 }
 const getFoodRanking = (req, res, next) => {
+  //check food exists
   wsg.checkFoodExists(req.params.barcode, 
    ret => {         
     if (!ret.found) {
       res.locals.inwsg = false;
+      // if no, keep going
       next(); 
       return;
     }
@@ -39,7 +41,7 @@ const getFoodRanking = (req, res, next) => {
       next();
       return;
     }
-
+    // if yes, let's send back that info
     let rank = nutrition.rankings[sys].rank || null;
     let value = nutrition.rankings[sys].value || null;
     let nutrition_source = "wellscan_global";
@@ -61,6 +63,7 @@ const getFoodRanking = (req, res, next) => {
   err => next())
 }
 const updateFood = (req,res,next) => {
+  //check if something bad happened; if yes, we should move to unidentifiedBarcode
   if (res.locals.fail) {
     next();
     return;
@@ -87,6 +90,7 @@ const updateFood = (req,res,next) => {
 }
 
 const unidentifiedBarcode = (req, res, next) => {
+    // adds unidentifiedBarcode
     if (res.locals.fail) {
     let opt = {
       barcode: req.params.barcode,
@@ -101,11 +105,13 @@ const unidentifiedBarcode = (req, res, next) => {
 }
 
 const getNutritionFromWSG = (req, res, next) => {
+  //find food in WSG and send to nutrition info
   wsg.checkFoodExists(req.params.barcode, 
      ret => {         
       if (!ret.found) {
         res.locals.inwsg = false;
         next(); 
+        // leave if not found
         return;
       }
       

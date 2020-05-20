@@ -21,14 +21,16 @@ export default class FatSecret {
         this.upcEndpoint = "https://platform.fatsecret.com/rest/server.api";
         this.source = "fat-secret";
         this.access_token = false;
-
+        //keep getting access token or else we get locked out
         this.refreshAccessToken()
         setInterval(function() {
             this.refreshAccessToken();
         }.bind(this), 86402 * 1000);
     }
     refreshAccessToken(success, fail) {
+        // getting an access token and putting it in this
         const context = this;
+        //set up some options
         let opt = { 
             method: 'POST',
             url: this.acccessTokenEndpoint,
@@ -43,24 +45,30 @@ export default class FatSecret {
             },
             json: true 
         };
-        
+        //make the request
         request(opt, (error, response) => {
+            //if something happens
             if (error) {
                 context.access_token = null;
+                //use our callback
                 if (fail) {
                     fail(error);
                 }
+                //then get out
                 return;
             }
-
+            //otherwise – yay we got the access token
             context.access_token = response.body.access_token;
-            
+            //then we call the success callback
             if (success) {
                 success()
             }
         });
     }
     getNutritionByUPC(options, success, notfound, fail) {
+        //main function to get a nutrition info (takes 2 calls)
+
+        //some setting up w/ upc, tokens, and the first call
         const upc = options.barcode;
         const access_token = this.access_token;
         const context = this;
@@ -75,8 +83,9 @@ export default class FatSecret {
                 'Content-Type': 'application/json' 
             } 
         };
-
+        // make the request
         request(fid_opts, function (error, response, body) {
+            //look at what we got
             let json = JSON.parse(body);
             if (error || json.error) {
                 
@@ -85,7 +94,7 @@ export default class FatSecret {
                 }
                 fail(error)
             }
-
+            // we know we didn't find the food if there is no food_id or these is no food_id
             if (!json.food_id || json.food_id.value === '0' || !json.food_id.value) {
                 notfound();
                 return;
@@ -95,6 +104,7 @@ export default class FatSecret {
                 notfound();
                 return;
             }
+            // set up for second call
             let options = { method: 'POST',
             url: 'https://platform.fatsecret.com/rest/server.api',
             qs: { 
@@ -105,7 +115,7 @@ export default class FatSecret {
                     'Content-Type': 'application/json' 
                 }
             };
-
+            // make the call
             request(options, (error2, response2, body2) => {
                 if (error2) {
                     fail(error2)
@@ -118,6 +128,7 @@ export default class FatSecret {
         })
     }
     convertSaturatedFat(sat_fat, fat) {
+        //helper
         if (isNaN(sat_fat)) {
             if (fat === 0) {
                 return 0;
@@ -162,6 +173,7 @@ export default class FatSecret {
         return nut;
     }
     express_router(req, res, next) {
+        // the actual route 
         if (!res.locals.nutrition) {
             let opt = {
                 barcode: req.params.barcode,

@@ -12,6 +12,7 @@ export default class USDA {
     }
 
     getNutritionByUPC(options, success, notfound, fail) {
+        //get nutrition, need to do a search for food id (fdcid) and get nutrition info for that fdcid
         const upc = options.barcode;
         if (isNaN(upc)) {
             fail(new Error("Not a UPC barcde"))
@@ -19,17 +20,18 @@ export default class USDA {
         }
         const key = options.appId && options.appKey || this.appKey;
         const url = this.fdcidEndpoint + key;
+        // post request to get food id
         axios.post(url, { "generalSearchInput": upc })
             .then(response => {
                 if (response.totalHits < 1) {
                     notfound(response);
+                    // if not found move on
                     return;
                 }
                 else {
                     let fdcid = response.data.foods[0].fdcId
-                
+                    // with fdcid let's use it to get the nutrition info for that food
                     let fdcidUrl = this.upcEndpoint + fdcid +"?api_key=" + key;
-                    //console.log(url, "\n", upc,  "\n", fdcid, "\n", fdcidUrl);
                     axios.get(fdcidUrl)
                     .then(response2 => {
                         success(this.convertFoodDataToSchema(response2.data));
@@ -41,9 +43,11 @@ export default class USDA {
     }
 
     convertFat(g) {
+        //help convert
         return isNaN(g) ? undefined : Math.round(g * 9);
     }
     convertSaturatedFat(sat_fat, fat) {
+        //help convert
         if (isNaN(sat_fat)) {
             if ( fat === 0) {
                 return 0;
@@ -58,6 +62,7 @@ export default class USDA {
     }
     
     convertFoodDataToSchema(old_data) {
+        //converting food info to our nutrition object
         let saturatedFat = this.convertSaturatedFat(np.get(old_data, "labelNutrients.saturatedFat.value"), np.get(old_data, "labelNutrients.fat.value"));
         
         let nut = {
@@ -93,6 +98,7 @@ export default class USDA {
         return nut;
     }
     express_router(req, res, next) {
+        // our prime router
         if (!res.locals.nutrition) {
             let opt = {
                 barcode: req.params.barcode,
@@ -101,7 +107,6 @@ export default class USDA {
             this.getNutritionByUPC(opt,
                 nutrition => {
                     res.locals.nutrition = nutrition;
-                    //res.send(nutrition)
                     res.locals.nutrition_source = this.source;
                     next();
                 },
